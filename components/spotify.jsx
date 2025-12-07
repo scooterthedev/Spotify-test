@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
+import YouTube from "react-youtube";
 
 function fmt(ms) {
   if (ms == null) return "--";
@@ -60,8 +61,61 @@ export default function Spotify({ songData: songDataFromParent, loading: loading
   const [darkMode, setDarkMode] = useState(true); // Default to true for this standalone app
   const baseProgressRef = useRef(songDataFromParent?.progressMs || 0);
   const lastFetchedRef = useRef(null);
+  const lastVideoFetchedRef = useRef(null);
   const onEndCalledRef = useRef(false);
   const lyricsContainerRef = useRef(null);
+  const [videoId, setVideoId] = useState(null);
+  const [showPlayer, setShowPlayer] = useState(false);
+  const playerRef = useRef(null);
+
+  useEffect(() => {
+    if (!localSongData?.title || !localSongData?.artist) return;
+    const id = `${localSongData.title}_${localSongData.artist}`;
+    if (lastVideoFetchedRef.current === id) return;
+    lastVideoFetchedRef.current = id;
+    
+    setVideoId(null);
+    setShowPlayer(false);
+    
+    fetch(`/api/youtube/search?title=${encodeURIComponent(localSongData.title)}&artist=${encodeURIComponent(localSongData.artist)}`)
+      .then(r => r.json())
+      .then(d => {
+        if (d.videoId) setVideoId(d.videoId);
+      });
+  }, [localSongData?.title, localSongData?.artist]);
+
+  useEffect(() => {
+    if (showPlayer && playerRef.current && localSongData?.progressMs) {
+      try {
+        const player = playerRef.current;
+        if (typeof player.getCurrentTime !== 'function') return;
+
+        const playerTime = player.getCurrentTime();
+        const targetTime = localSongData.progressMs / 1000;
+        
+        // Sync if drift is > 2 seconds
+        if (Math.abs(playerTime - targetTime) > 2) {
+          player.seekTo(targetTime);
+        }
+        
+        const playerState = player.getPlayerState();
+        if (localSongData.playing && playerState !== 1 && playerState !== 3) {
+          player.playVideo();
+        } else if (!localSongData.playing && playerState === 1) {
+          player.pauseVideo();
+        }
+      } catch (e) {
+      }
+    }
+  }, [localSongData?.progressMs, localSongData?.playing, showPlayer]);
+
+  const onPlayerReady = (event) => {
+    playerRef.current = event.target;
+    if (localSongData?.progressMs) {
+      event.target.seekTo(localSongData.progressMs / 1000);
+    }
+    event.target.playVideo();
+  };
 
   useEffect(() => {
     setDarkMode(document.documentElement.classList.contains("dark"));
@@ -196,6 +250,48 @@ export default function Spotify({ songData: songDataFromParent, loading: loading
             })}
           </div>
           {unsynced && <div className="text-xs text-gray-400 mt-2 text-right">Unsynced</div>}
+        </div>
+      )}
+      
+      {videoId && (
+        <div className="mt-4 border-t border-gray-200 pt-4 flex items-center justify-between">
+          <button 
+            onClick={() => setShowPlayer(!showPlayer)}
+            className={"py-2 px-4 rounded-md text-sm font-medium transition flex items-center gap-2 " + (showPlayer ? "bg-red-100 text-red-600 hover:bg-red-200" : "bg-black text-white hover:bg-gray-800")}
+          >
+            {showPlayer ? (
+              <>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
+                Stop Listening
+              </>
+            ) : (
+              <>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                Listen Along (YouTube)
+              </>
+            )}
+          </button>
+          {showPlayer && (
+            <>
+              <div className="text-xs text-green-600 font-medium animate-pulse">● Live Audio Synced</div>
+              <div className="fixed top-0 left-0 w-1 h-1 opacity-0 pointer-events-none overflow-hidden">
+                <YouTube
+                  videoId={videoId}
+                  opts={{
+                    width: '100%',
+                    height: '100%',
+                    playerVars: {
+                      autoplay: 1,
+                      controls: 1,
+                      disablekb: 1,
+                      fs: 0,
+                    },
+                  }}
+                  onReady={onPlayerReady}
+                />
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>
