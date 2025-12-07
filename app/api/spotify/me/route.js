@@ -47,6 +47,7 @@ export async function GET() {
     artist: i.artists.map((a) => a.name).join(", "),
     cover: i.album.images?.[0]?.url,
     url: i.external_urls.spotify,
+    uri: i.uri,
     embed: `https://open.spotify.com/embed/track/${i.id}`,
     progressMs: progress,
     durationMs: duration,

@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import YouTube from "react-youtube";
 
 function fmt(ms) {
   if (ms == null) return "--";
@@ -53,7 +52,7 @@ function getScriptFont(text) {
   return `Geist`;
 }
 
-export default function Spotify({ songData: songDataFromParent, loading: loadingFromParent, onEnd }) {
+export default function Spotify({ songData: songDataFromParent, loading: loadingFromParent, onEnd, accessToken }) {
   const [localSongData, setLocalSongData] = useState(songDataFromParent);
   const [parsedLyrics, setParsedLyrics] = useState([]);
   const [unsynced, setUnsynced] = useState(false);
@@ -61,60 +60,80 @@ export default function Spotify({ songData: songDataFromParent, loading: loading
   const [darkMode, setDarkMode] = useState(true); // Default to true for this standalone app
   const baseProgressRef = useRef(songDataFromParent?.progressMs || 0);
   const lastFetchedRef = useRef(null);
-  const lastVideoFetchedRef = useRef(null);
   const onEndCalledRef = useRef(false);
   const lyricsContainerRef = useRef(null);
-  const [videoId, setVideoId] = useState(null);
-  const [showPlayer, setShowPlayer] = useState(false);
-  const playerRef = useRef(null);
+
+  // Spotify Web Playback SDK State
+  const [token, setToken] = useState(accessToken);
+  const [player, setPlayer] = useState(null);
+  const [isActive, setActive] = useState(false);
+  const [deviceId, setDeviceId] = useState(null);
 
   useEffect(() => {
-    if (!localSongData?.title || !localSongData?.artist) return;
-    const id = `${localSongData.title}_${localSongData.artist}`;
-    if (lastVideoFetchedRef.current === id) return;
-    lastVideoFetchedRef.current = id;
-    
-    setVideoId(null);
-    setShowPlayer(false);
-    
-    fetch(`/api/youtube/search?title=${encodeURIComponent(localSongData.title)}&artist=${encodeURIComponent(localSongData.artist)}`)
-      .then(r => r.json())
-      .then(d => {
-        if (d.videoId) setVideoId(d.videoId);
+    if (accessToken) setToken(accessToken);
+  }, [accessToken]);
+
+  useEffect(() => {
+    if (!token) return;
+
+    const initializePlayer = () => {
+      const player = new window.Spotify.Player({
+        name: 'My Website Listener',
+        getOAuthToken: cb => { cb(token); },
+        volume: 0.5
       });
-  }, [localSongData?.title, localSongData?.artist]);
 
-  useEffect(() => {
-    if (showPlayer && playerRef.current && localSongData?.progressMs) {
-      try {
-        const player = playerRef.current;
-        if (typeof player.getCurrentTime !== 'function') return;
+      player.addListener('ready', ({ device_id }) => {
+        console.log('Ready with Device ID', device_id);
+        setDeviceId(device_id);
+      });
 
-        const playerTime = player.getCurrentTime();
-        const targetTime = localSongData.progressMs / 1000;
-        
-        // Sync if drift is > 2 seconds
-        if (Math.abs(playerTime - targetTime) > 2) {
-          player.seekTo(targetTime);
+      player.addListener('not_ready', ({ device_id }) => {
+        console.log('Device ID has gone offline', device_id);
+      });
+
+      player.addListener('initialization_error', ({ message }) => {
+          console.error('Initialization Error:', message);
+      });
+      player.addListener('authentication_error', ({ message }) => {
+          console.error('Authentication Error:', message);
+      });
+      player.addListener('account_error', ({ message }) => {
+          console.error('Account Error:', message);
+      });
+
+      player.connect();
+      setPlayer(player);
+    };
+
+    if (window.Spotify) {
+        initializePlayer();
+    } else {
+        window.onSpotifyWebPlaybackSDKReady = initializePlayer;
+        if (!document.querySelector('script[src="https://sdk.scdn.co/spotify-player.js"]')) {
+            const script = document.createElement("script");
+            script.src = "https://sdk.scdn.co/spotify-player.js";
+            script.async = true;
+            document.body.appendChild(script);
         }
-        
-        const playerState = player.getPlayerState();
-        if (localSongData.playing && playerState !== 1 && playerState !== 3) {
-          player.playVideo();
-        } else if (!localSongData.playing && playerState === 1) {
-          player.pauseVideo();
-        }
-      } catch (e) {
-      }
     }
-  }, [localSongData?.progressMs, localSongData?.playing, showPlayer]);
+  }, [token]);
 
-  const onPlayerReady = (event) => {
-    playerRef.current = event.target;
-    if (localSongData?.progressMs) {
-      event.target.seekTo(localSongData.progressMs / 1000);
-    }
-    event.target.playVideo();
+  const handleLogin = () => {
+    window.location.href = `/api/spotify/login`;
+  };
+
+  const handleJoin = async () => {
+    if (!deviceId || !token || !localSongData?.uri) return;
+    await fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ uris: [localSongData.uri], position_ms: localSongData.progressMs }),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+    setActive(true);
   };
 
   useEffect(() => {
@@ -253,47 +272,30 @@ export default function Spotify({ songData: songDataFromParent, loading: loading
         </div>
       )}
       
-      {videoId && (
-        <div className="mt-4 border-t border-gray-200 pt-4 flex items-center justify-between">
+      <div className="mt-4 border-t border-gray-200 pt-4">
+        {!token ? (
           <button 
-            onClick={() => setShowPlayer(!showPlayer)}
-            className={"py-2 px-4 rounded-md text-sm font-medium transition flex items-center gap-2 " + (showPlayer ? "bg-red-100 text-red-600 hover:bg-red-200" : "bg-black text-white hover:bg-gray-800")}
+            onClick={handleLogin}
+            className="w-full py-2 px-4 bg-green-500 text-white rounded-md text-sm font-medium hover:bg-green-600 transition flex items-center justify-center gap-2"
           >
-            {showPlayer ? (
-              <>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
-                Stop Listening
-              </>
-            ) : (
-              <>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                Listen Along (YouTube)
-              </>
-            )}
+            Connect Spotify to Listen Along
           </button>
-          {showPlayer && (
-            <>
-              <div className="text-xs text-green-600 font-medium animate-pulse">● Live Audio Synced</div>
-              <div className="fixed top-0 left-0 w-1 h-1 opacity-0 pointer-events-none overflow-hidden">
-                <YouTube
-                  videoId={videoId}
-                  opts={{
-                    width: '100%',
-                    height: '100%',
-                    playerVars: {
-                      autoplay: 1,
-                      controls: 1,
-                      disablekb: 1,
-                      fs: 0,
-                    },
-                  }}
-                  onReady={onPlayerReady}
-                />
-              </div>
-            </>
-          )}
-        </div>
-      )}
+        ) : (
+          <div className="flex flex-col gap-2">
+             {!isActive ? (
+               <button 
+                 onClick={handleJoin}
+                 disabled={!deviceId}
+                 className="w-full py-2 px-4 bg-black text-white rounded-md text-sm font-medium hover:bg-gray-800 transition flex items-center justify-center gap-2 disabled:opacity-50"
+               >
+                 {deviceId ? "Join Session (Sync Audio)" : "Connecting to Spotify..."}
+               </button>
+             ) : (
+               <div className="text-xs text-green-600 font-medium text-center animate-pulse">● Synced with Spotify</div>
+             )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
