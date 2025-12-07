@@ -1,0 +1,24 @@
+{
+  "name": "spotify-listener",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --experimental-https",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "setup": "node scripts/get-refresh-token.js"
+  },
+  "dependencies": {
+    "lucide-react": "^0.525.0",
+    "next": "^15.5.7",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "postcss": "^8",
+    "tailwindcss": "^4"
+  }
+}
