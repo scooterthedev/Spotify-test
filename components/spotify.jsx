@@ -57,83 +57,126 @@ export default function Spotify({ songData: songDataFromParent, loading: loading
   const [parsedLyrics, setParsedLyrics] = useState([]);
   const [unsynced, setUnsynced] = useState(false);
   const perfStartRef = useRef(performance.now());
-  const [darkMode, setDarkMode] = useState(true); // Default to true for this standalone app
+  const [darkMode, setDarkMode] = useState(true);
   const baseProgressRef = useRef(songDataFromParent?.progressMs || 0);
   const lastFetchedRef = useRef(null);
   const onEndCalledRef = useRef(false);
   const lyricsContainerRef = useRef(null);
 
   // Spotify Web Playback SDK State
-  const [token, setToken] = useState(accessToken);
   const [player, setPlayer] = useState(null);
   const [isActive, setActive] = useState(false);
   const [deviceId, setDeviceId] = useState(null);
+  const [sdkError, setSdkError] = useState(null);
 
+  // Initialize SDK when we have an access token
   useEffect(() => {
-    if (accessToken) setToken(accessToken);
-  }, [accessToken]);
-
-  useEffect(() => {
-    if (!token) return;
+    if (!accessToken) {
+      setSdkError(null);
+      return;
+    }
 
     const initializePlayer = () => {
-      const player = new window.Spotify.Player({
-        name: 'My Website Listener',
-        getOAuthToken: cb => { cb(token); },
-        volume: 0.5
-      });
+      try {
+        const spotifyPlayer = new window.Spotify.Player({
+          name: 'Web Listener',
+          getOAuthToken: cb => { cb(accessToken); },
+          volume: 0.5
+        });
 
-      player.addListener('ready', ({ device_id }) => {
-        console.log('Ready with Device ID', device_id);
-        setDeviceId(device_id);
-      });
+        spotifyPlayer.addListener('ready', ({ device_id }) => {
+          console.log('✓ Spotify SDK ready with Device ID:', device_id);
+          setDeviceId(device_id);
+          setSdkError(null);
+        });
 
-      player.addListener('not_ready', ({ device_id }) => {
-        console.log('Device ID has gone offline', device_id);
-      });
+        spotifyPlayer.addListener('not_ready', ({ device_id }) => {
+          console.log('Device ID has gone offline', device_id);
+          setDeviceId(null);
+        });
 
-      player.addListener('initialization_error', ({ message }) => {
+        spotifyPlayer.addListener('initialization_error', ({ message }) => {
           console.error('Initialization Error:', message);
-      });
-      player.addListener('authentication_error', ({ message }) => {
+          setSdkError(`Initialization error: ${message}`);
+        });
+        
+        spotifyPlayer.addListener('authentication_error', ({ message }) => {
           console.error('Authentication Error:', message);
-      });
-      player.addListener('account_error', ({ message }) => {
+          setSdkError('Authentication error - please reconnect');
+        });
+        
+        spotifyPlayer.addListener('account_error', ({ message }) => {
           console.error('Account Error:', message);
-      });
+          setSdkError('Spotify Premium required to listen along');
+        });
 
-      player.connect();
-      setPlayer(player);
+        spotifyPlayer.connect().then(success => {
+          if (success) {
+            console.log('✓ Spotify Player connected');
+          }
+        });
+        
+        setPlayer(spotifyPlayer);
+      } catch (error) {
+        console.error('Failed to create player:', error);
+        setSdkError('Failed to initialize player');
+      }
     };
 
     if (window.Spotify) {
-        initializePlayer();
+      initializePlayer();
     } else {
-        window.onSpotifyWebPlaybackSDKReady = initializePlayer;
-        if (!document.querySelector('script[src="https://sdk.scdn.co/spotify-player.js"]')) {
-            const script = document.createElement("script");
-            script.src = "https://sdk.scdn.co/spotify-player.js";
-            script.async = true;
-            document.body.appendChild(script);
-        }
+      window.onSpotifyWebPlaybackSDKReady = initializePlayer;
+      if (!document.querySelector('script[src="https://sdk.scdn.co/spotify-player.js"]')) {
+        const script = document.createElement("script");
+        script.src = "https://sdk.scdn.co/spotify-player.js";
+        script.async = true;
+        document.body.appendChild(script);
+      }
     }
-  }, [token]);
+
+    return () => {
+      if (player) {
+        player.disconnect();
+      }
+    };
+  }, [accessToken]);
 
   const handleLogin = () => {
     window.location.href = `/api/spotify/login`;
   };
 
   const handleJoin = async () => {
-    if (!deviceId || !token || !localSongData?.uri) return;
-    await fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
-      method: 'PUT',
-      body: JSON.stringify({ uris: [localSongData.uri], position_ms: localSongData.progressMs }),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-    });
-    setActive(true);
+    if (!deviceId || !accessToken || !localSongData?.uri) {
+      console.error("Missing:", { deviceId, accessToken: !!accessToken, uri: localSongData?.uri });
+      return;
+    }
+    
+    try {
+      const response = await fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ 
+          uris: [localSongData.uri], 
+          position_ms: localSongData.progressMs || 0
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+      });
+
+      if (response.ok || response.status === 204) {
+        setActive(true);
+        console.log('✓ Playback transferred to browser');
+      } else {
+        const error = await response.json().catch(() => ({ error: { message: 'Unknown error' } }));
+        console.error('Playback transfer failed:', response.status, error);
+        setSdkError(`Playback failed: ${error.error?.message || response.statusText}`);
+      }
+    } catch (error) {
+      console.error('Join session error:', error);
+      setSdkError('Failed to start playback');
+    }
   };
 
   useEffect(() => {
@@ -273,7 +316,7 @@ export default function Spotify({ songData: songDataFromParent, loading: loading
       )}
       
       <div className="mt-4 border-t border-gray-200 pt-4">
-        {!token ? (
+        {!accessToken ? (
           <button 
             onClick={handleLogin}
             className="w-full py-2 px-4 bg-green-500 text-white rounded-md text-sm font-medium hover:bg-green-600 transition flex items-center justify-center gap-2"
@@ -282,17 +325,28 @@ export default function Spotify({ songData: songDataFromParent, loading: loading
           </button>
         ) : (
           <div className="flex flex-col gap-2">
-             {!isActive ? (
-               <button 
-                 onClick={handleJoin}
-                 disabled={!deviceId}
-                 className="w-full py-2 px-4 bg-black text-white rounded-md text-sm font-medium hover:bg-gray-800 transition flex items-center justify-center gap-2 disabled:opacity-50"
-               >
-                 {deviceId ? "Join Session (Sync Audio)" : "Connecting to Spotify..."}
-               </button>
-             ) : (
-               <div className="text-xs text-green-600 font-medium text-center animate-pulse">● Synced with Spotify</div>
-             )}
+            {sdkError && (
+              <div className="text-xs text-red-600 p-2 bg-red-50 rounded border border-red-200">
+                {sdkError}
+              </div>
+            )}
+            {!isActive ? (
+              <button 
+                onClick={handleJoin}
+                disabled={!deviceId || !localSongData?.uri}
+                className="w-full py-2 px-4 bg-black text-white rounded-md text-sm font-medium hover:bg-gray-800 transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {!deviceId ? (
+                  "Connecting to Spotify..."
+                ) : !localSongData?.uri ? (
+                  "Waiting for track..."
+                ) : (
+                  "Join Session (Sync Audio)"
+                )}
+              </button>
+            ) : (
+              <div className="text-xs text-green-600 font-medium text-center animate-pulse">● Synced with Spotify</div>
+            )}
           </div>
         )}
       </div>

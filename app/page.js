@@ -7,26 +7,61 @@ export default function Home() {
   const [songLoad, setSongLoad] = useState(true);
   const [reloadRequired, setReloadRequired] = useState(false);
   const [accessToken, setAccessToken] = useState(null);
+  const [authStatus, setAuthStatus] = useState(null);
 
   const reloadSpotify = () => {
     setReloadRequired(true);
   };
 
+  // Check for auth status from callback
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("spotify_access_token");
-      if (stored) setAccessToken(stored);
-
-      if (window.location.hash) {
-        const params = new URLSearchParams(window.location.hash.substring(1));
-        const token = params.get("access_token");
-        if (token) {
-          setAccessToken(token);
-          localStorage.setItem("spotify_access_token", token);
-          window.location.hash = "";
-        }
+      const params = new URLSearchParams(window.location.search);
+      const auth = params.get("auth");
+      const message = params.get("message");
+      
+      if (auth === "success") {
+        setAuthStatus("success");
+        // Clean up URL
+        window.history.replaceState({}, document.title, "/");
+        // Fetch token
+        fetchToken();
+      } else if (auth === "error") {
+        setAuthStatus(`error: ${message}`);
+        window.history.replaceState({}, document.title, "/");
       }
     }
+  }, []);
+
+  // Fetch access token from server
+  const fetchToken = async () => {
+    try {
+      const response = await fetch('/api/spotify/token');
+      
+      if (!response.ok) {
+        setAccessToken(null);
+        setAuthStatus(null);
+        return;
+      }
+      
+      const data = await response.json();
+      
+      if (data.authenticated && data.access_token) {
+        setAccessToken(data.access_token);
+        setAuthStatus("connected");
+      } else {
+        setAccessToken(null);
+        setAuthStatus(null);
+      }
+    } catch (error) {
+      console.error("Failed to fetch token:", error);
+      setAccessToken(null);
+    }
+  };
+
+  // Check for existing token on mount
+  useEffect(() => {
+    fetchToken();
   }, []);
 
   useEffect(() => {
@@ -61,6 +96,16 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-6">
       <div className="w-full max-w-5xl">
+        {authStatus === "success" && (
+          <div className="mb-4 p-3 bg-green-100 text-green-800 rounded-md text-sm">
+            ✓ Successfully connected to Spotify
+          </div>
+        )}
+        {authStatus && authStatus.startsWith("error") && (
+          <div className="mb-4 p-3 bg-red-100 text-red-800 rounded-md text-sm">
+            ✗ {authStatus}
+          </div>
+        )}
         {songdata && songdata.title ? (
           <Spotify songData={songdata} loading={songLoad} onEnd={reloadSpotify} accessToken={accessToken} />
         ) : (

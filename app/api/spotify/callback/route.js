@@ -1,25 +1,25 @@
+import { NextResponse } from 'next/server';
 import { redirect } from 'next/navigation';
 
 export async function GET(request) {
   const clientId = process.env.SPOTIFY_CLIENT_ID;
   const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+  const redirectUri = process.env.SPOTIFY_REDIRECT_URI || "https://localhost:3000/api/spotify/callback";
+  
   const { searchParams } = new URL(request.url);
   const code = searchParams.get('code');
   const error = searchParams.get('error');
 
-  // Determine the redirect URI based on the request host to support both localhost and IP
-  const host = request.headers.get('host');
-  const protocol = "https"; // We are forcing https
-  const redirectUri = `${protocol}://${host}/api/spotify/callback`;
-
   console.log("Callback Redirect URI:", redirectUri);
 
   if (error) {
-    return redirect(`/#error=${error}`);
+    console.error("Spotify auth error:", error);
+    return redirect(`/?auth=error&message=${error}`);
   }
 
   if (!code) {
-    return redirect('/#error=no_code');
+    console.error("No code received");
+    return redirect('/?auth=error&message=no_code');
   }
 
   const params = new URLSearchParams({
@@ -41,14 +41,38 @@ export async function GET(request) {
     });
 
     const data = await response.json();
+    console.log("Token exchange response:", data.error || "Success");
 
     if (data.error) {
-      return redirect(`/#error=${data.error}`);
+      return redirect(`/?auth=error&message=${data.error}`);
     }
 
-    // Redirect to home with the access token in the hash
-    return redirect(`/#access_token=${data.access_token}`);
+    // Store tokens in httpOnly cookies
+    const res = NextResponse.redirect(new URL('/?auth=success', request.url));
+    
+    // Set access token (expires in ~1 hour)
+    res.cookies.set('spotify_access_token', data.access_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      maxAge: data.expires_in || 3600,
+      path: '/'
+    });
+    
+    // Set refresh token (long-lived)
+    if (data.refresh_token) {
+      res.cookies.set('spotify_refresh_token', data.refresh_token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 365, // 1 year
+        path: '/'
+      });
+    }
+
+    return res;
   } catch (err) {
-    return redirect(`/#error=server_error`);
+    console.error("Token exchange error:", err);
+    return redirect('/?auth=error&message=server_error');
   }
 }
