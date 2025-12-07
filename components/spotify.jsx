@@ -84,6 +84,12 @@ export default function Spotify({ songData: songDataFromParent, loading: loading
           volume: 0.5
         });
 
+        spotifyPlayer.addListener('player_state_changed', state => {
+          if (state) {
+            console.log('Player state:', state);
+          }
+        });
+
         spotifyPlayer.addListener('ready', ({ device_id }) => {
           console.log('✓ Spotify SDK ready with Device ID:', device_id);
           setDeviceId(device_id);
@@ -153,11 +159,15 @@ export default function Spotify({ songData: songDataFromParent, loading: loading
     }
     
     try {
+      console.log('Transferring playback to device:', deviceId);
+      console.log('Track URI:', localSongData.uri);
+      console.log('Position:', localSongData.progressMs);
+      
       const response = await fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
         method: 'PUT',
         body: JSON.stringify({ 
           uris: [localSongData.uri], 
-          position_ms: localSongData.progressMs || 0
+          position_ms: Math.floor(localSongData.progressMs || 0)
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -168,6 +178,15 @@ export default function Spotify({ songData: songDataFromParent, loading: loading
       if (response.ok || response.status === 204) {
         setActive(true);
         console.log('✓ Playback transferred to browser');
+        
+        // Start syncing - listen to player state changes
+        if (player) {
+          player.getCurrentState().then(state => {
+            if (state) {
+              console.log('Current player state after transfer:', state);
+            }
+          });
+        }
       } else {
         const error = await response.json().catch(() => ({ error: { message: 'Unknown error' } }));
         console.error('Playback transfer failed:', response.status, error);
@@ -178,6 +197,34 @@ export default function Spotify({ songData: songDataFromParent, loading: loading
       setSdkError('Failed to start playback');
     }
   };
+
+  // Sync playback position when active
+  useEffect(() => {
+    if (!isActive || !player || !localSongData?.progressMs) return;
+
+    const syncInterval = setInterval(async () => {
+      try {
+        const state = await player.getCurrentState();
+        if (!state) return;
+
+        const playerPosition = state.position;
+        const expectedPosition = localSongData.progressMs;
+        const drift = Math.abs(playerPosition - expectedPosition);
+
+        // If drift is more than 3 seconds, resync
+        if (drift > 3000) {
+          console.log(`Resyncing - drift: ${(drift / 1000).toFixed(1)}s`);
+          player.seek(expectedPosition).catch(err => {
+            console.error('Seek error:', err);
+          });
+        }
+      } catch (error) {
+        console.error('Sync error:', error);
+      }
+    }, 2000); // Check every 2 seconds
+
+    return () => clearInterval(syncInterval);
+  }, [isActive, player, localSongData?.progressMs]);
 
   useEffect(() => {
     setDarkMode(document.documentElement.classList.contains("dark"));

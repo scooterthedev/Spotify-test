@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
 export async function GET(request) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   let accessToken = cookieStore.get('spotify_access_token')?.value;
   const refreshToken = cookieStore.get('spotify_refresh_token')?.value;
 
