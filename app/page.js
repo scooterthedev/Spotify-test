@@ -28,7 +28,7 @@ export default function Home() {
       refreshing = false;
     }
     load();
-    const syncInterval = setInterval(load, 10000);
+    const syncInterval = setInterval(load, 1500);
     const reloadInterval = setInterval(() => {
       if (reloadRequired) {
         load();
