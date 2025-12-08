@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
+import SyncPlayer from './sync-player';
 
 function fmt(ms) {
   if (ms == null) return "--";
@@ -53,178 +54,17 @@ function getScriptFont(text) {
 }
 
 export default function Spotify({ songData: songDataFromParent, loading: loadingFromParent, onEnd, accessToken }) {
-  const [localSongData, setLocalSongData] = useState(songDataFromParent);
-  const [parsedLyrics, setParsedLyrics] = useState([]);
-  const [unsynced, setUnsynced] = useState(false);
-  const perfStartRef = useRef(performance.now());
-  const [darkMode, setDarkMode] = useState(true);
-  const baseProgressRef = useRef(songDataFromParent?.progressMs || 0);
-  const lastFetchedRef = useRef(null);
-  const onEndCalledRef = useRef(false);
-  const lyricsContainerRef = useRef(null);
-
-  // Spotify Web Playback SDK State
-  const [player, setPlayer] = useState(null);
-  const [isActive, setActive] = useState(false);
-  const [deviceId, setDeviceId] = useState(null);
-  const [sdkError, setSdkError] = useState(null);
-
-  // Initialize SDK when we have an access token
-  useEffect(() => {
-    if (!accessToken) {
-      setSdkError(null);
-      return;
-    }
-
-    const initializePlayer = () => {
-      try {
-        const spotifyPlayer = new window.Spotify.Player({
-          name: 'Web Listener',
-          getOAuthToken: cb => { cb(accessToken); },
-          volume: 0.5
-        });
-
-        spotifyPlayer.addListener('player_state_changed', state => {
-          if (state) {
-            console.log('Player state:', state);
-          }
-        });
-
-        spotifyPlayer.addListener('ready', ({ device_id }) => {
-          console.log('✓ Spotify SDK ready with Device ID:', device_id);
-          setDeviceId(device_id);
-          setSdkError(null);
-        });
-
-        spotifyPlayer.addListener('not_ready', ({ device_id }) => {
-          console.log('Device ID has gone offline', device_id);
-          setDeviceId(null);
-        });
-
-        spotifyPlayer.addListener('initialization_error', ({ message }) => {
-          console.error('Initialization Error:', message);
-          setSdkError(`Initialization error: ${message}`);
-        });
-        
-        spotifyPlayer.addListener('authentication_error', ({ message }) => {
-          console.error('Authentication Error:', message);
-          setSdkError('Authentication error - please reconnect');
-        });
-        
-        spotifyPlayer.addListener('account_error', ({ message }) => {
-          console.error('Account Error:', message);
-          setSdkError('Spotify Premium required to listen along');
-        });
-
-        spotifyPlayer.connect().then(success => {
-          if (success) {
-            console.log('✓ Spotify Player connected');
-          }
-        });
-        
-        setPlayer(spotifyPlayer);
-      } catch (error) {
-        console.error('Failed to create player:', error);
-        setSdkError('Failed to initialize player');
-      }
-    };
-
-    if (window.Spotify) {
-      initializePlayer();
-    } else {
-      window.onSpotifyWebPlaybackSDKReady = initializePlayer;
-      if (!document.querySelector('script[src="https://sdk.scdn.co/spotify-player.js"]')) {
-        const script = document.createElement("script");
-        script.src = "https://sdk.scdn.co/spotify-player.js";
-        script.async = true;
-        document.body.appendChild(script);
-      }
-    }
-
-    return () => {
-      if (player) {
-        player.disconnect();
-      }
-    };
-  }, [accessToken]);
-
-  const handleLogin = () => {
-    window.location.href = `/api/spotify/login`;
-  };
-
-  const handleJoin = async () => {
-    if (!deviceId || !accessToken || !localSongData?.uri) {
-      console.error("Missing:", { deviceId, accessToken: !!accessToken, uri: localSongData?.uri });
-      return;
-    }
-    
-    try {
-      console.log('Transferring playback to device:', deviceId);
-      console.log('Track URI:', localSongData.uri);
-      console.log('Position:', localSongData.progressMs);
-      
-      const response = await fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
-        method: 'PUT',
-        body: JSON.stringify({ 
-          uris: [localSongData.uri], 
-          position_ms: Math.floor(localSongData.progressMs || 0)
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`
-        },
-      });
-
-      if (response.ok || response.status === 204) {
-        setActive(true);
-        console.log('✓ Playback transferred to browser');
-        
-        // Start syncing - listen to player state changes
-        if (player) {
-          player.getCurrentState().then(state => {
-            if (state) {
-              console.log('Current player state after transfer:', state);
-            }
-          });
-        }
-      } else {
-        const error = await response.json().catch(() => ({ error: { message: 'Unknown error' } }));
-        console.error('Playback transfer failed:', response.status, error);
-        setSdkError(`Playback failed: ${error.error?.message || response.statusText}`);
-      }
-    } catch (error) {
-      console.error('Join session error:', error);
-      setSdkError('Failed to start playback');
-    }
-  };
-
-  // Sync playback position when active
-  useEffect(() => {
-    if (!isActive || !player || !localSongData?.progressMs) return;
-
-    const syncInterval = setInterval(async () => {
-      try {
-        const state = await player.getCurrentState();
-        if (!state) return;
-
-        const playerPosition = state.position;
-        const expectedPosition = localSongData.progressMs;
-        const drift = Math.abs(playerPosition - expectedPosition);
-
-        // If drift is more than 3 seconds, resync
-        if (drift > 3000) {
-          console.log(`Resyncing - drift: ${(drift / 1000).toFixed(1)}s`);
-          player.seek(expectedPosition).catch(err => {
-            console.error('Seek error:', err);
-          });
-        }
-      } catch (error) {
-        console.error('Sync error:', error);
-      }
-    }, 2000); // Check every 2 seconds
-
-    return () => clearInterval(syncInterval);
-  }, [isActive, player, localSongData?.progressMs]);
+   const [localSongData, setLocalSongData] = useState(songDataFromParent);
+   const [parsedLyrics, setParsedLyrics] = useState([]);
+   const [unsynced, setUnsynced] = useState(false);
+   const perfStartRef = useRef(performance.now());
+   const [darkMode, setDarkMode] = useState(true);
+   const baseProgressRef = useRef(songDataFromParent?.progressMs || 0);
+   const lastFetchedRef = useRef(null);
+   const onEndCalledRef = useRef(false);
+   const lyricsContainerRef = useRef(null);
+   const [showSyncPanel, setShowSyncPanel] = useState(false);
+   const [syncProgressMs, setSyncProgressMs] = useState(null);
 
   useEffect(() => {
     setDarkMode(document.documentElement.classList.contains("dark"));
@@ -280,22 +120,48 @@ export default function Spotify({ songData: songDataFromParent, loading: loading
 
   useEffect(() => {
     if (!songDataFromParent) return;
+    console.log('📥 Received song data from parent:', {
+      title: songDataFromParent.title,
+      playing: songDataFromParent.playing,
+      progressMs: songDataFromParent.progressMs,
+      durationMs: songDataFromParent.durationMs
+    });
     setLocalSongData(songDataFromParent);
     perfStartRef.current = performance.now();
     baseProgressRef.current = songDataFromParent.progressMs || 0;
   }, [songDataFromParent]);
 
   useEffect(() => {
+    let tickCount = 0;
     const tick = setInterval(() => {
       setLocalSongData(d => {
         if (!d || !d.playing || d.progressMs == null || d.durationMs == null) return d;
-        const elapsed = baseProgressRef.current + (performance.now() - perfStartRef.current);
+        
+        // If synced progress is available, use it; otherwise calculate from base
+        let elapsed;
+        if (syncProgressMs !== null) {
+          elapsed = syncProgressMs;
+        } else {
+          elapsed = baseProgressRef.current + (performance.now() - perfStartRef.current);
+        }
         const capped = Math.min(elapsed, d.durationMs);
+        
+        // Log every 50 ticks (every 5 seconds)
+        tickCount++;
+        if (tickCount % 50 === 0) {
+          console.log('⏱️ Progress tick:', {
+            progressMs: Math.round(capped),
+            progressSec: Math.round(capped / 1000),
+            durationSec: Math.round(d.durationMs / 1000),
+            synced: syncProgressMs !== null
+          });
+        }
+        
         return { ...d, progressMs: capped, percentage: Math.min((capped / d.durationMs) * 100, 100) };
       });
     }, 100);
     return () => clearInterval(tick);
-  }, []);
+  }, [syncProgressMs]);
 
   useEffect(() => {
     if (!lyricsContainerRef.current || !parsedLyrics.length || !localSongData?.progressMs) return;
@@ -361,41 +227,32 @@ export default function Spotify({ songData: songDataFromParent, loading: loading
           {unsynced && <div className="text-xs text-gray-400 mt-2 text-right">Unsynced</div>}
         </div>
       )}
-      
+
+      {/* Sync Panel */}
       <div className="mt-4 border-t border-gray-200 pt-4">
-        {!accessToken ? (
+        {!showSyncPanel ? (
           <button 
-            onClick={handleLogin}
-            className="w-full py-2 px-4 bg-green-500 text-white rounded-md text-sm font-medium hover:bg-green-600 transition flex items-center justify-center gap-2"
+            onClick={() => setShowSyncPanel(true)}
+            className="w-full py-2 px-4 bg-purple-600 text-white rounded-md text-sm font-medium hover:bg-purple-700 transition flex items-center justify-center gap-2"
           >
-            Connect Spotify to Listen Along
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="1"></circle>
+              <path d="M12 1v6m0 6v6"></path>
+              <path d="M4.22 4.22l4.24 4.24m3.08 3.08l4.24 4.24"></path>
+              <path d="M1 12h6m6 0h6"></path>
+              <path d="M4.22 19.78l4.24-4.24m3.08-3.08l4.24-4.24"></path>
+            </svg>
+            Sync Across Devices
           </button>
         ) : (
-          <div className="flex flex-col gap-2">
-            {sdkError && (
-              <div className="text-xs text-red-600 p-2 bg-red-50 rounded border border-red-200">
-                {sdkError}
-              </div>
-            )}
-            {!isActive ? (
-              <button 
-                onClick={handleJoin}
-                disabled={!deviceId || !localSongData?.uri}
-                className="w-full py-2 px-4 bg-black text-white rounded-md text-sm font-medium hover:bg-gray-800 transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {!deviceId ? (
-                  "Connecting to Spotify..."
-                ) : !localSongData?.uri ? (
-                  "Waiting for track..."
-                ) : (
-                  "Join Session (Sync Audio)"
-                )}
-              </button>
-            ) : (
-              <div className="text-xs text-green-600 font-medium text-center animate-pulse">● Synced with Spotify</div>
-            )}
-          </div>
+          <button 
+            onClick={() => setShowSyncPanel(false)}
+            className="w-full py-2 px-4 bg-gray-200 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-300 transition"
+          >
+            Hide Sync Panel
+          </button>
         )}
+        {showSyncPanel && <div className="mt-3"><SyncPlayer songData={localSongData} onSyncProgress={setSyncProgressMs} /></div>}
       </div>
     </div>
   );
