@@ -8,8 +8,9 @@ export default function SyncPlayer({ songData, onSyncProgress }) {
   const [isHost, setIsHost] = useState(false);
   const [connectedDevices, setConnectedDevices] = useState([]);
   const [syncStatus, setSyncStatus] = useState('idle');
-  const deviceIdRef = useRef(null);
-  const pollIntervalRef = useRef(null);
+   const [errorMessage, setErrorMessage] = useState('');
+   const deviceIdRef = useRef(null);
+   const pollIntervalRef = useRef(null);
 
   // Generate unique device ID
   useEffect(() => {
@@ -19,60 +20,71 @@ export default function SyncPlayer({ songData, onSyncProgress }) {
   }, []);
 
   // Create sync session
-  const createSession = async () => {
-    try {
-      setSyncStatus('creating');
-      const res = await fetch('/api/sync/session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'create' })
-      });
-      
-      const data = await res.json();
-      setSessionId(data.sessionId);
-      setSessionCode(data.code);
-      setIsHost(true);
-      setSyncStatus('hosting');
+   const createSession = async () => {
+     try {
+       setSyncStatus('creating');
+       setErrorMessage('');
+       const res = await fetch('/api/sync/session', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ action: 'create' })
+       });
+       
+       if (!res.ok) {
+         throw new Error('Failed to create session');
+       }
+       
+       const data = await res.json();
+       setSessionId(data.sessionId);
+       setSessionCode(data.code);
+       setIsHost(true);
+       setSyncStatus('hosting');
 
-      // Join as host
-      await joinSession(data.sessionId, true);
-    } catch (error) {
-      console.error('Failed to create session:', error);
-      setSyncStatus('error');
-    }
-  };
+       // Join as host
+       await joinSession(data.sessionId, true);
+     } catch (error) {
+       console.error('Failed to create session:', error);
+       setErrorMessage(error.message || 'Failed to create session');
+       setSyncStatus('error');
+     }
+   };
 
   // Join sync session
-  const joinSession = async (sid, isHostJoin = false) => {
-    try {
-      setSyncStatus('joining');
-      const res = await fetch('/api/sync/session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'join',
-          sessionId: sid,
-          deviceId: deviceIdRef.current,
-          deviceName: `Device ${deviceIdRef.current.slice(-4)}`,
-          progressMs: songData?.progressMs || 0
-        })
-      });
+   const joinSession = async (sid, isHostJoin = false) => {
+     try {
+       setSyncStatus('joining');
+       setErrorMessage('');
+       const res = await fetch('/api/sync/session', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({
+           action: 'join',
+           sessionId: sid,
+           deviceId: deviceIdRef.current,
+           deviceName: `Device ${deviceIdRef.current.slice(-4)}`,
+           progressMs: songData?.progressMs || 0
+         })
+       });
 
-      if (!res.ok) throw new Error('Failed to join session');
+       if (!res.ok) {
+         const errorData = await res.json();
+         throw new Error(errorData.error || 'Failed to join session');
+       }
 
-      const data = await res.json();
-      setSessionId(sid);
-      setIsHost(isHostJoin);
-      setSyncStatus('synced');
-      setConnectedDevices(data.session.devices);
+       const data = await res.json();
+       setSessionId(sid);
+       setIsHost(isHostJoin);
+       setSyncStatus('synced');
+       setConnectedDevices(data.session.devices);
 
-      // Start polling for updates
-      startPolling(sid);
-    } catch (error) {
-      console.error('Failed to join session:', error);
-      setSyncStatus('error');
-    }
-  };
+       // Start polling for updates
+       startPolling(sid);
+     } catch (error) {
+       console.error('Failed to join session:', error);
+       setErrorMessage(error.message || 'Failed to join session');
+       setSyncStatus('error');
+     }
+   };
 
   // Start polling for session updates
   const startPolling = (sid) => {
@@ -136,11 +148,14 @@ export default function SyncPlayer({ songData, onSyncProgress }) {
   if (!sessionId) {
     return (
       <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm w-full">
-        <h3 className="font-semibold text-lg text-black mb-4">Cross-Device Sync</h3>
-        
-        {syncStatus === 'error' && (
-          <div className="text-red-600 text-sm mb-4">An error occurred</div>
-        )}
+         <h3 className="font-semibold text-lg text-black mb-4">Cross-Device Sync</h3>
+         
+         {syncStatus === 'error' && (
+           <div className="bg-red-50 border border-red-200 rounded-md p-3 mb-4">
+             <p className="text-red-600 text-sm font-medium">Error</p>
+             <p className="text-red-700 text-xs mt-1">{errorMessage || 'An error occurred'}</p>
+           </div>
+         )}
 
         <div className="space-y-3">
           <div>

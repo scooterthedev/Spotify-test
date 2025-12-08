@@ -2,6 +2,7 @@ import { randomBytes } from 'crypto';
 
 // In-memory store (replace with database in production)
 const syncSessions = new Map();
+const codeToSessionId = new Map(); // Map codes to full session IDs
 
 export async function POST(req) {
   try {
@@ -9,22 +10,36 @@ export async function POST(req) {
 
     if (action === 'create') {
       const newSessionId = randomBytes(16).toString('hex');
+      const code = randomBytes(3).toString('hex').toUpperCase().slice(0, 6);
+      
       syncSessions.set(newSessionId, {
         id: newSessionId,
+        code: code,
         createdAt: Date.now(),
         devices: new Map(),
         currentProgressMs: 0,
         isPlaying: false,
       });
+      codeToSessionId.set(code, newSessionId);
       
       return Response.json({ 
         sessionId: newSessionId,
-        code: newSessionId.slice(0, 6).toUpperCase()
+        code: code
       });
     }
 
     if (action === 'join') {
-      const session = syncSessions.get(sessionId);
+      // Support both full sessionId and code
+      let actualSessionId = sessionId;
+      if (sessionId && sessionId.length === 6) {
+        // Looks like a code, resolve it
+        actualSessionId = codeToSessionId.get(sessionId);
+        if (!actualSessionId) {
+          return Response.json({ error: 'Invalid session code' }, { status: 404 });
+        }
+      }
+      
+      const session = syncSessions.get(actualSessionId);
       if (!session) {
         return Response.json({ error: 'Session not found' }, { status: 404 });
       }
@@ -40,6 +55,7 @@ export async function POST(req) {
         success: true,
         session: {
           id: session.id,
+          code: session.code,
           currentProgressMs: session.currentProgressMs,
           isPlaying: session.isPlaying,
           devices: Array.from(session.devices.values())
@@ -48,7 +64,16 @@ export async function POST(req) {
     }
 
     if (action === 'update') {
-      const session = syncSessions.get(sessionId);
+      // Support both full sessionId and code
+      let actualSessionId = sessionId;
+      if (sessionId && sessionId.length === 6) {
+        actualSessionId = codeToSessionId.get(sessionId);
+        if (!actualSessionId) {
+          return Response.json({ error: 'Invalid session code' }, { status: 404 });
+        }
+      }
+      
+      const session = syncSessions.get(actualSessionId);
       if (!session) {
         return Response.json({ error: 'Session not found' }, { status: 404 });
       }
@@ -66,7 +91,16 @@ export async function POST(req) {
     }
 
     if (action === 'get') {
-      const session = syncSessions.get(sessionId);
+      // Support both full sessionId and code
+      let actualSessionId = sessionId;
+      if (sessionId && sessionId.length === 6) {
+        actualSessionId = codeToSessionId.get(sessionId);
+        if (!actualSessionId) {
+          return Response.json({ error: 'Invalid session code' }, { status: 404 });
+        }
+      }
+      
+      const session = syncSessions.get(actualSessionId);
       if (!session) {
         return Response.json({ error: 'Session not found' }, { status: 404 });
       }

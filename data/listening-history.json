@@ -1,5 +1,5 @@
 {
-  "totalListeningTimeMs": 370962,
+  "totalListeningTimeMs": 760388,
   "sessions": [
     {
       "timestamp": "2025-12-08T16:29:38.261Z",
@@ -780,6 +780,766 @@
       "durationMs": 202066,
       "playing": true,
       "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:36:12.967Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 99034,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:36:17.977Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 104005,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:36:22.297Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 108416,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:36:27.865Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 113736,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:36:32.885Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 118846,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:36:38.896Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 124873,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:36:44.153Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 130163,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:36:54.003Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 140005,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:37:04.145Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 150131,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:37:14.603Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 160680,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:37:19.986Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 165948,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:37:24.808Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 170928,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:37:30.861Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 176820,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:37:37.825Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 183874,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:37:42.938Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 187516,
+      "durationMs": 202066,
+      "playing": false,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:37:47.951Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 187516,
+      "durationMs": 202066,
+      "playing": false,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:37:54.227Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 187516,
+      "durationMs": 202066,
+      "playing": false,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:38:04.524Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 190454,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:38:07.590Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 193644,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:38:26.448Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 3630,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:38:30.224Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 7338,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:38:36.031Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 13088,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:38:40.918Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 18067,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:38:45.917Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 23066,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:38:51.172Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 28228,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:38:55.526Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 32678,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:39:01.036Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 38268,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:39:06.088Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 43259,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:39:11.116Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 48264,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:39:15.984Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 53139,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:39:20.871Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 58021,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:39:26.133Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 63289,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:39:30.980Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 68176,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:39:36.206Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 73319,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:39:41.056Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 78193,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:39:45.892Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 83163,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:39:51.428Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 88531,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:39:56.562Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 93805,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:40:03.374Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 100484,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:40:15.275Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 112532,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:40:22.694Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 119837,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:40:27.008Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 124278,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:40:32.421Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 129569,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:40:37.692Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 134691,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:40:42.108Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 139289,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:40:47.326Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 144610,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:40:52.452Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 149743,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:40:57.745Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 154866,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:41:02.117Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 159358,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:41:04.120Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 161398,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:41:10.178Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 167261,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:41:14.404Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 171695,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:41:19.753Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 177015,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:41:24.601Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 181870,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:41:30.182Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 187261,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:41:34.530Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 191590,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:41:39.903Z",
+      "title": "Party In The U.S.A.",
+      "artist": "Miley Cyrus",
+      "album": "The Time Of Our Lives",
+      "progressMs": 197024,
+      "durationMs": 202066,
+      "playing": true,
+      "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1"
+    },
+    {
+      "timestamp": "2025-12-08T16:41:44.957Z",
+      "title": "I Want It That Way",
+      "artist": "Backstreet Boys",
+      "album": "Millennium",
+      "progressMs": 1111,
+      "durationMs": 213306,
+      "playing": true,
+      "uri": "spotify:track:47BBI51FKFwOMlIiX6m8ya"
+    },
+    {
+      "timestamp": "2025-12-08T16:41:49.819Z",
+      "title": "I Want It That Way",
+      "artist": "Backstreet Boys",
+      "album": "Millennium",
+      "progressMs": 5941,
+      "durationMs": 213306,
+      "playing": true,
+      "uri": "spotify:track:47BBI51FKFwOMlIiX6m8ya"
+    },
+    {
+      "timestamp": "2025-12-08T16:41:54.744Z",
+      "title": "I Want It That Way",
+      "artist": "Backstreet Boys",
+      "album": "Millennium",
+      "progressMs": 10820,
+      "durationMs": 213306,
+      "playing": true,
+      "uri": "spotify:track:47BBI51FKFwOMlIiX6m8ya"
+    },
+    {
+      "timestamp": "2025-12-08T16:41:59.919Z",
+      "title": "I Want It That Way",
+      "artist": "Backstreet Boys",
+      "album": "Millennium",
+      "progressMs": 16073,
+      "durationMs": 213306,
+      "playing": true,
+      "uri": "spotify:track:47BBI51FKFwOMlIiX6m8ya"
+    },
+    {
+      "timestamp": "2025-12-08T16:42:05.065Z",
+      "title": "I Want It That Way",
+      "artist": "Backstreet Boys",
+      "album": "Millennium",
+      "progressMs": 21101,
+      "durationMs": 213306,
+      "playing": true,
+      "uri": "spotify:track:47BBI51FKFwOMlIiX6m8ya"
+    },
+    {
+      "timestamp": "2025-12-08T16:42:09.531Z",
+      "title": "I Want It That Way",
+      "artist": "Backstreet Boys",
+      "album": "Millennium",
+      "progressMs": 25540,
+      "durationMs": 213306,
+      "playing": true,
+      "uri": "spotify:track:47BBI51FKFwOMlIiX6m8ya"
+    },
+    {
+      "timestamp": "2025-12-08T16:42:14.845Z",
+      "title": "I Want It That Way",
+      "artist": "Backstreet Boys",
+      "album": "Millennium",
+      "progressMs": 30879,
+      "durationMs": 213306,
+      "playing": true,
+      "uri": "spotify:track:47BBI51FKFwOMlIiX6m8ya"
+    },
+    {
+      "timestamp": "2025-12-08T16:42:20.830Z",
+      "title": "I Want It That Way",
+      "artist": "Backstreet Boys",
+      "album": "Millennium",
+      "progressMs": 36499,
+      "durationMs": 213306,
+      "playing": true,
+      "uri": "spotify:track:47BBI51FKFwOMlIiX6m8ya"
+    },
+    {
+      "timestamp": "2025-12-08T16:42:24.528Z",
+      "title": "I Want It That Way",
+      "artist": "Backstreet Boys",
+      "album": "Millennium",
+      "progressMs": 40685,
+      "durationMs": 213306,
+      "playing": true,
+      "uri": "spotify:track:47BBI51FKFwOMlIiX6m8ya"
+    },
+    {
+      "timestamp": "2025-12-08T16:42:29.887Z",
+      "title": "I Want It That Way",
+      "artist": "Backstreet Boys",
+      "album": "Millennium",
+      "progressMs": 46016,
+      "durationMs": 213306,
+      "playing": true,
+      "uri": "spotify:track:47BBI51FKFwOMlIiX6m8ya"
+    },
+    {
+      "timestamp": "2025-12-08T16:42:34.905Z",
+      "title": "I Want It That Way",
+      "artist": "Backstreet Boys",
+      "album": "Millennium",
+      "progressMs": 51038,
+      "durationMs": 213306,
+      "playing": true,
+      "uri": "spotify:track:47BBI51FKFwOMlIiX6m8ya"
+    },
+    {
+      "timestamp": "2025-12-08T16:42:40.000Z",
+      "title": "I Want It That Way",
+      "artist": "Backstreet Boys",
+      "album": "Millennium",
+      "progressMs": 56139,
+      "durationMs": 213306,
+      "playing": true,
+      "uri": "spotify:track:47BBI51FKFwOMlIiX6m8ya"
+    },
+    {
+      "timestamp": "2025-12-08T16:42:46.842Z",
+      "title": "I Want It That Way",
+      "artist": "Backstreet Boys",
+      "album": "Millennium",
+      "progressMs": 62865,
+      "durationMs": 213306,
+      "playing": true,
+      "uri": "spotify:track:47BBI51FKFwOMlIiX6m8ya"
+    },
+    {
+      "timestamp": "2025-12-08T16:42:54.982Z",
+      "title": "I Want It That Way",
+      "artist": "Backstreet Boys",
+      "album": "Millennium",
+      "progressMs": 71091,
+      "durationMs": 213306,
+      "playing": true,
+      "uri": "spotify:track:47BBI51FKFwOMlIiX6m8ya"
+    },
+    {
+      "timestamp": "2025-12-08T16:43:00.292Z",
+      "title": "I Want It That Way",
+      "artist": "Backstreet Boys",
+      "album": "Millennium",
+      "progressMs": 76421,
+      "durationMs": 213306,
+      "playing": true,
+      "uri": "spotify:track:47BBI51FKFwOMlIiX6m8ya"
+    },
+    {
+      "timestamp": "2025-12-08T16:43:17.762Z",
+      "title": "I Want It That Way",
+      "artist": "Backstreet Boys",
+      "album": "Millennium",
+      "progressMs": 93917,
+      "durationMs": 213306,
+      "playing": true,
+      "uri": "spotify:track:47BBI51FKFwOMlIiX6m8ya"
+    },
+    {
+      "timestamp": "2025-12-08T16:43:28.733Z",
+      "title": "Yellow",
+      "artist": "Coldplay",
+      "album": "Parachutes",
+      "progressMs": 1706,
+      "durationMs": 266773,
+      "playing": true,
+      "uri": "spotify:track:3AJwUDP919kvQ9QcozQPxg"
+    },
+    {
+      "timestamp": "2025-12-08T16:44:03.642Z",
+      "title": "Yellow",
+      "artist": "Coldplay",
+      "album": "Parachutes",
+      "progressMs": 36388,
+      "durationMs": 266773,
+      "playing": true,
+      "uri": "spotify:track:3AJwUDP919kvQ9QcozQPxg"
+    },
+    {
+      "timestamp": "2025-12-08T16:44:44.508Z",
+      "title": "Yellow",
+      "artist": "Coldplay",
+      "album": "Parachutes",
+      "progressMs": 77281,
+      "durationMs": 266773,
+      "playing": true,
+      "uri": "spotify:track:3AJwUDP919kvQ9QcozQPxg"
     }
   ],
   "songs": {
@@ -1179,9 +1939,9 @@
       "album": "The Time Of Our Lives",
       "uri": "spotify:track:5Q0Nhxo0l2bP3pNjpGJwV1",
       "firstPlayed": "2025-12-08T16:34:37.383Z",
-      "lastPlayed": "2025-12-08T16:36:07.573Z",
-      "playCount": 2,
-      "totalListeningTimeMs": 81939,
+      "lastPlayed": "2025-12-08T16:41:39.903Z",
+      "playCount": 6,
+      "totalListeningTimeMs": 366055,
       "sessions": [
         {
           "timestamp": "2025-12-08T16:34:37.383Z",
@@ -1284,9 +2044,489 @@
           "progressMs": 93619,
           "durationMs": 202066,
           "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:36:12.967Z",
+          "progressMs": 99034,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:36:17.977Z",
+          "progressMs": 104005,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:36:22.297Z",
+          "progressMs": 108416,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:36:27.865Z",
+          "progressMs": 113736,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:36:32.885Z",
+          "progressMs": 118846,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:36:38.896Z",
+          "progressMs": 124873,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:36:44.153Z",
+          "progressMs": 130163,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:36:54.003Z",
+          "progressMs": 140005,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:37:04.145Z",
+          "progressMs": 150131,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:37:14.603Z",
+          "progressMs": 160680,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:37:19.986Z",
+          "progressMs": 165948,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:37:24.808Z",
+          "progressMs": 170928,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:37:30.861Z",
+          "progressMs": 176820,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:37:37.825Z",
+          "progressMs": 183874,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:37:42.938Z",
+          "progressMs": 187516,
+          "durationMs": 202066,
+          "playing": false
+        },
+        {
+          "timestamp": "2025-12-08T16:37:47.951Z",
+          "progressMs": 187516,
+          "durationMs": 202066,
+          "playing": false
+        },
+        {
+          "timestamp": "2025-12-08T16:37:54.227Z",
+          "progressMs": 187516,
+          "durationMs": 202066,
+          "playing": false
+        },
+        {
+          "timestamp": "2025-12-08T16:38:04.524Z",
+          "progressMs": 190454,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:38:07.590Z",
+          "progressMs": 193644,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:38:26.448Z",
+          "progressMs": 3630,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:38:30.224Z",
+          "progressMs": 7338,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:38:36.031Z",
+          "progressMs": 13088,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:38:40.918Z",
+          "progressMs": 18067,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:38:45.917Z",
+          "progressMs": 23066,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:38:51.172Z",
+          "progressMs": 28228,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:38:55.526Z",
+          "progressMs": 32678,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:39:01.036Z",
+          "progressMs": 38268,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:39:06.088Z",
+          "progressMs": 43259,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:39:11.116Z",
+          "progressMs": 48264,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:39:15.984Z",
+          "progressMs": 53139,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:39:20.871Z",
+          "progressMs": 58021,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:39:26.133Z",
+          "progressMs": 63289,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:39:30.980Z",
+          "progressMs": 68176,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:39:36.206Z",
+          "progressMs": 73319,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:39:41.056Z",
+          "progressMs": 78193,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:39:45.892Z",
+          "progressMs": 83163,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:39:51.428Z",
+          "progressMs": 88531,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:39:56.562Z",
+          "progressMs": 93805,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:40:03.374Z",
+          "progressMs": 100484,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:40:15.275Z",
+          "progressMs": 112532,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:40:22.694Z",
+          "progressMs": 119837,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:40:27.008Z",
+          "progressMs": 124278,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:40:32.421Z",
+          "progressMs": 129569,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:40:37.692Z",
+          "progressMs": 134691,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:40:42.108Z",
+          "progressMs": 139289,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:40:47.326Z",
+          "progressMs": 144610,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:40:52.452Z",
+          "progressMs": 149743,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:40:57.745Z",
+          "progressMs": 154866,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:41:02.117Z",
+          "progressMs": 159358,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:41:04.120Z",
+          "progressMs": 161398,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:41:10.178Z",
+          "progressMs": 167261,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:41:14.404Z",
+          "progressMs": 171695,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:41:19.753Z",
+          "progressMs": 177015,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:41:24.601Z",
+          "progressMs": 181870,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:41:30.182Z",
+          "progressMs": 187261,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:41:34.530Z",
+          "progressMs": 191590,
+          "durationMs": 202066,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:41:39.903Z",
+          "progressMs": 197024,
+          "durationMs": 202066,
+          "playing": true
+        }
+      ]
+    },
+    "I Want It That Way|||Backstreet Boys": {
+      "title": "I Want It That Way",
+      "artist": "Backstreet Boys",
+      "album": "Millennium",
+      "uri": "spotify:track:47BBI51FKFwOMlIiX6m8ya",
+      "firstPlayed": "2025-12-08T16:41:44.957Z",
+      "lastPlayed": "2025-12-08T16:43:17.762Z",
+      "playCount": 2,
+      "totalListeningTimeMs": 85310,
+      "sessions": [
+        {
+          "timestamp": "2025-12-08T16:41:44.957Z",
+          "progressMs": 1111,
+          "durationMs": 213306,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:41:49.819Z",
+          "progressMs": 5941,
+          "durationMs": 213306,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:41:54.744Z",
+          "progressMs": 10820,
+          "durationMs": 213306,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:41:59.919Z",
+          "progressMs": 16073,
+          "durationMs": 213306,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:42:05.065Z",
+          "progressMs": 21101,
+          "durationMs": 213306,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:42:09.531Z",
+          "progressMs": 25540,
+          "durationMs": 213306,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:42:14.845Z",
+          "progressMs": 30879,
+          "durationMs": 213306,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:42:20.830Z",
+          "progressMs": 36499,
+          "durationMs": 213306,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:42:24.528Z",
+          "progressMs": 40685,
+          "durationMs": 213306,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:42:29.887Z",
+          "progressMs": 46016,
+          "durationMs": 213306,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:42:34.905Z",
+          "progressMs": 51038,
+          "durationMs": 213306,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:42:40.000Z",
+          "progressMs": 56139,
+          "durationMs": 213306,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:42:46.842Z",
+          "progressMs": 62865,
+          "durationMs": 213306,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:42:54.982Z",
+          "progressMs": 71091,
+          "durationMs": 213306,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:43:00.292Z",
+          "progressMs": 76421,
+          "durationMs": 213306,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:43:17.762Z",
+          "progressMs": 93917,
+          "durationMs": 213306,
+          "playing": true
+        }
+      ]
+    },
+    "Yellow|||Coldplay": {
+      "title": "Yellow",
+      "artist": "Coldplay",
+      "album": "Parachutes",
+      "uri": "spotify:track:3AJwUDP919kvQ9QcozQPxg",
+      "firstPlayed": "2025-12-08T16:43:28.733Z",
+      "lastPlayed": "2025-12-08T16:44:44.508Z",
+      "playCount": 3,
+      "totalListeningTimeMs": 20000,
+      "sessions": [
+        {
+          "timestamp": "2025-12-08T16:43:28.733Z",
+          "progressMs": 1706,
+          "durationMs": 266773,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:44:03.642Z",
+          "progressMs": 36388,
+          "durationMs": 266773,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T16:44:44.508Z",
+          "progressMs": 77281,
+          "durationMs": 266773,
+          "playing": true
         }
       ]
     }
   },
-  "lastUpdated": "2025-12-08T16:36:07.595Z"
+  "lastUpdated": "2025-12-08T16:44:44.534Z"
 }
