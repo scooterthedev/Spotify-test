@@ -12,7 +12,7 @@ export async function POST(req) {
     const { action, sessionId, deviceId, deviceName, progressMs } = await req.json();
 
     if (action === 'create') {
-      const { sessionId: newSessionId, code } = createSession();
+      const { sessionId: newSessionId, code } = await createSession();
       
       return Response.json({ 
         sessionId: newSessionId,
@@ -27,30 +27,30 @@ export async function POST(req) {
 
       if (sessionId && sessionId.length === 6) {
         // Looks like a code, resolve it
-        session = getSessionByCode(sessionId);
+        session = await getSessionByCode(sessionId);
         if (!session) {
           return Response.json({ error: 'Invalid session code' }, { status: 404 });
         }
         actualSessionId = session.id;
       } else {
-        session = getSessionById(sessionId);
+        session = await getSessionById(sessionId);
         if (!session) {
           return Response.json({ error: 'Session not found' }, { status: 404 });
         }
       }
 
       // Add device to session
-      addDevice(actualSessionId, deviceId, deviceName, progressMs || 0);
+      await addDevice(actualSessionId, deviceId, deviceName, progressMs || 0);
 
-      const devices = getDevices(actualSessionId);
+      const devices = await getDevices(actualSessionId);
 
       return Response.json({
         success: true,
         session: {
           id: session.id,
           code: session.code,
-          currentProgressMs: session.current_progress_ms,
-          isPlaying: session.is_playing,
+          currentProgressMs: session.currentProgressMs,
+          isPlaying: session.isPlaying,
           devices: devices
         }
       });
@@ -62,19 +62,19 @@ export async function POST(req) {
       let session = null;
 
       if (sessionId && sessionId.length === 6) {
-        session = getSessionByCode(sessionId);
+        session = await getSessionByCode(sessionId);
         if (!session) {
           return Response.json({ error: 'Invalid session code' }, { status: 404 });
         }
         actualSessionId = session.id;
       } else {
-        session = getSessionById(sessionId);
+        session = await getSessionById(sessionId);
         if (!session) {
           return Response.json({ error: 'Session not found' }, { status: 404 });
         }
       }
 
-      updateSessionProgress(actualSessionId, deviceId, progressMs);
+      await updateSessionProgress(actualSessionId, deviceId, progressMs);
 
       return Response.json({ success: true });
     }
@@ -85,25 +85,25 @@ export async function POST(req) {
       let session = null;
 
       if (sessionId && sessionId.length === 6) {
-        session = getSessionByCode(sessionId);
+        session = await getSessionByCode(sessionId);
         if (!session) {
           return Response.json({ error: 'Invalid session code' }, { status: 404 });
         }
         actualSessionId = session.id;
       } else {
-        session = getSessionById(sessionId);
+        session = await getSessionById(sessionId);
         if (!session) {
           return Response.json({ error: 'Session not found' }, { status: 404 });
         }
       }
 
-      const devices = getDevices(actualSessionId);
+      const devices = await getDevices(actualSessionId);
 
       return Response.json({
         id: session.id,
         code: session.code,
-        currentProgressMs: session.current_progress_ms,
-        isPlaying: session.is_playing,
+        currentProgressMs: session.currentProgressMs,
+        isPlaying: session.isPlaying,
         devices: devices
       });
     }
