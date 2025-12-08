@@ -1,5 +1,5 @@
 {
-  "totalListeningTimeMs": 830542,
+  "totalListeningTimeMs": 835216,
   "sessions": [
     {
       "timestamp": "2025-12-08T16:29:38.261Z",
@@ -1670,6 +1670,16 @@
       "durationMs": 242293,
       "playing": true,
       "uri": "spotify:track:2gam98EZKrF9XuOkU13ApN"
+    },
+    {
+      "timestamp": "2025-12-08T17:03:39.760Z",
+      "title": "Promiscuous",
+      "artist": "Nelly Furtado, Timbaland",
+      "album": "Loose",
+      "progressMs": 29934,
+      "durationMs": 242293,
+      "playing": true,
+      "uri": "spotify:track:2gam98EZKrF9XuOkU13ApN"
     }
   ],
   "songs": {
@@ -2747,18 +2757,24 @@
       "album": "Loose",
       "uri": "spotify:track:2gam98EZKrF9XuOkU13ApN",
       "firstPlayed": "2025-12-08T16:52:31.056Z",
-      "lastPlayed": "2025-12-08T16:52:31.056Z",
+      "lastPlayed": "2025-12-08T17:03:39.760Z",
       "playCount": 1,
-      "totalListeningTimeMs": 0,
+      "totalListeningTimeMs": 4674,
       "sessions": [
         {
           "timestamp": "2025-12-08T16:52:31.056Z",
           "progressMs": 25260,
           "durationMs": 242293,
           "playing": true
+        },
+        {
+          "timestamp": "2025-12-08T17:03:39.760Z",
+          "progressMs": 29934,
+          "durationMs": 242293,
+          "playing": true
         }
       ]
     }
   },
-  "lastUpdated": "2025-12-08T16:52:31.079Z"
+  "lastUpdated": "2025-12-08T17:03:39.974Z"
 }
