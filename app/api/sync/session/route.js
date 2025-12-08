@@ -9,7 +9,12 @@ import {
 
 export async function POST(req) {
   try {
-    const { action, sessionId, deviceId, deviceName, progressMs } = await req.json();
+    const body = await req.json();
+    const { action, sessionId, deviceId, deviceName, progressMs } = body;
+    
+    if (!action) {
+      return Response.json({ error: 'Missing action' }, { status: 400 });
+    }
 
     if (action === 'create') {
       const { sessionId: newSessionId, code } = await createSession();
