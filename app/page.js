@@ -1,8 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
+import Spotify from "@/components/spotify";
 
 export default function Home() {
+  const [songdata, setsongData] = useState(null);
+  const [songLoad, setSongLoad] = useState(true);
+  const [reloadRequired, setReloadRequired] = useState(false);
   const [stats, setStats] = useState(null);
+
+  const reloadSpotify = () => {
+    setReloadRequired(true);
+  };
 
   // Load stats on mount and refresh every minute
   useEffect(() => {
@@ -20,10 +28,15 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    let lastProgressMs = null;
-    async function logListeningData() {
+    let refreshing = false;
+    async function load() {
       try {
+        if (refreshing) return;
+        setReloadRequired(false);
+        setSongLoad(true);
+        refreshing = true;
         const now = await fetch("/api/spotify/me").then(r => r.json());
+        setsongData(now);
         
         // Log listening data if song is playing
         if (now && now.title && now.artist) {
@@ -38,24 +51,39 @@ export default function Home() {
               durationMs: now.durationMs,
               playing: now.playing,
               uri: now.uri,
-              lastProgressMs: lastProgressMs
+              timestamp: new Date().toISOString()
             })
           }).catch(err => console.error('Failed to log listening data:', err));
-          lastProgressMs = now.progressMs;
         }
-       } catch (e) {
-         console.error('Failed to fetch current song:', e);
-       }
-     }
-     logListeningData();
-     const logInterval = setInterval(logListeningData, 5000);
-     return () => {
-       clearInterval(logInterval);
-     };
-   }, []);
+      } catch (e) {
+        setsongData(prev => ({ ...prev, playing: false }));
+      }
+      setSongLoad(false);
+      refreshing = false;
+    }
+    load();
+    const syncInterval = setInterval(load, 5000);
+    const reloadInterval = setInterval(() => {
+      if (reloadRequired) {
+        load();
+      }
+    }, 500);
+    return () => {
+      clearInterval(syncInterval);
+      clearInterval(reloadInterval);
+    };
+  }, [reloadRequired]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-6 gap-6">
+      <div className="w-full max-w-5xl">
+        {songdata && songdata.title ? (
+          <Spotify songData={songdata} loading={songLoad} onEnd={reloadSpotify} />
+        ) : (
+          <div className="text-center opacity-50">Not playing anything...</div>
+        )}
+      </div>
+
       {/* Listening Stats */}
       {stats && stats.summary && (
         <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-4">
