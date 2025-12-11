@@ -1,5 +1,5 @@
 {
-  "totalListeningTimeMs": 835216,
+  "totalListeningTimeMs": 853742,
   "sessions": [
     {
       "timestamp": "2025-12-08T16:29:38.261Z",
@@ -1680,6 +1680,56 @@
       "durationMs": 242293,
       "playing": true,
       "uri": "spotify:track:2gam98EZKrF9XuOkU13ApN"
+    },
+    {
+      "timestamp": "2025-12-09T03:03:44.651Z",
+      "title": "Royals",
+      "artist": "Lorde",
+      "album": "Pure Heroine",
+      "progressMs": 8584,
+      "durationMs": 190185,
+      "playing": true,
+      "uri": "spotify:track:2dLLR6qlu5UJ5gk0dKz0h3"
+    },
+    {
+      "timestamp": "2025-12-09T03:03:48.140Z",
+      "title": "Royals",
+      "artist": "Lorde",
+      "album": "Pure Heroine",
+      "progressMs": 12226,
+      "durationMs": 190185,
+      "playing": true,
+      "uri": "spotify:track:2dLLR6qlu5UJ5gk0dKz0h3"
+    },
+    {
+      "timestamp": "2025-12-09T03:03:54.308Z",
+      "title": "Royals",
+      "artist": "Lorde",
+      "album": "Pure Heroine",
+      "progressMs": 18091,
+      "durationMs": 190185,
+      "playing": true,
+      "uri": "spotify:track:2dLLR6qlu5UJ5gk0dKz0h3"
+    },
+    {
+      "timestamp": "2025-12-09T03:03:59.400Z",
+      "title": "Royals",
+      "artist": "Lorde",
+      "album": "Pure Heroine",
+      "progressMs": 23339,
+      "durationMs": 190185,
+      "playing": true,
+      "uri": "spotify:track:2dLLR6qlu5UJ5gk0dKz0h3"
+    },
+    {
+      "timestamp": "2025-12-09T03:04:03.166Z",
+      "title": "Royals",
+      "artist": "Lorde",
+      "album": "Pure Heroine",
+      "progressMs": 27110,
+      "durationMs": 190185,
+      "playing": true,
+      "uri": "spotify:track:2dLLR6qlu5UJ5gk0dKz0h3"
     }
   ],
   "songs": {
@@ -2774,7 +2824,49 @@
           "playing": true
         }
       ]
+    },
+    "Royals|||Lorde": {
+      "title": "Royals",
+      "artist": "Lorde",
+      "album": "Pure Heroine",
+      "uri": "spotify:track:2dLLR6qlu5UJ5gk0dKz0h3",
+      "firstPlayed": "2025-12-09T03:03:44.651Z",
+      "lastPlayed": "2025-12-09T03:04:03.166Z",
+      "playCount": 1,
+      "totalListeningTimeMs": 18526,
+      "sessions": [
+        {
+          "timestamp": "2025-12-09T03:03:44.651Z",
+          "progressMs": 8584,
+          "durationMs": 190185,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-09T03:03:48.140Z",
+          "progressMs": 12226,
+          "durationMs": 190185,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-09T03:03:54.308Z",
+          "progressMs": 18091,
+          "durationMs": 190185,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-09T03:03:59.400Z",
+          "progressMs": 23339,
+          "durationMs": 190185,
+          "playing": true
+        },
+        {
+          "timestamp": "2025-12-09T03:04:03.166Z",
+          "progressMs": 27110,
+          "durationMs": 190185,
+          "playing": true
+        }
+      ]
     }
   },
-  "lastUpdated": "2025-12-08T17:03:39.974Z"
+  "lastUpdated": "2025-12-09T03:04:03.194Z"
 }
