@@ -12,7 +12,7 @@ export default function Home() {
     setReloadRequired(true);
   };
 
-  // Load stats on mount and refresh every minute
+  // Load stats on mount and refresh only when a song logs
   useEffect(() => {
     async function loadStats() {
       try {
@@ -23,8 +23,7 @@ export default function Home() {
       }
     }
     loadStats();
-    const statsInterval = setInterval(loadStats, 60000); // Refresh every minute
-    return () => clearInterval(statsInterval);
+    // Don't poll - refresh only when songs change
   }, []);
 
   useEffect(() => {
@@ -56,7 +55,16 @@ export default function Home() {
             listeningTimeMs: listeningTimeMs
           })
         });
-        if (!response.ok) {
+        if (response.ok) {
+          // Refresh stats after logging a song
+          const statsData = await response.json();
+          console.log('📊 Stats updated');
+          // Optionally fetch updated stats
+          const statsResponse = await fetch("/api/spotify/log");
+          if (statsResponse.ok) {
+            setStats(await statsResponse.json());
+          }
+        } else {
           console.error('Failed to log song:', response.status);
         }
       } catch (e) {
@@ -108,7 +116,7 @@ export default function Home() {
        refreshing = false;
      }
      load();
-     const syncInterval = setInterval(load, 5000);
+     const syncInterval = setInterval(load, 30000); // Reduced from 5s to 30s
      const reloadInterval = setInterval(() => {
        if (reloadRequired) {
          load();
