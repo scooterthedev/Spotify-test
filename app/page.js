@@ -35,11 +35,15 @@ export default function Home() {
     async function logSongCompletion(song) {
       if (!song || !song.title || !song.artist) return;
       
-      console.log('📊 Logging song completion:', {
+      // Use progressMs from the song data (how far through they got)
+      const listenedMs = song.progressMs || 0;
+      
+      console.log('📊 Logging song:', {
         title: song.title,
         artist: song.artist,
-        listeningTimeMs: listeningTimeMs,
-        durationMs: song.durationMs
+        listenedMs: listenedMs,
+        durationMs: song.durationMs,
+        percentComplete: Math.round((listenedMs / (song.durationMs || 1)) * 100)
       });
       
       try {
@@ -52,7 +56,7 @@ export default function Home() {
             album: song.album,
             uri: song.uri,
             durationMs: song.durationMs,
-            listeningTimeMs: listeningTimeMs
+            listeningTimeMs: listenedMs
           })
         });
         if (response.ok) {
