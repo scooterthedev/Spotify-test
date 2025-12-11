@@ -29,15 +29,22 @@ export default function Home() {
 
   useEffect(() => {
     let refreshing = false;
-    let previousSongKey = null;
+    let previousSongData = null;
     let songStartTime = null;
     let listeningTimeMs = 0;
 
     async function logSongCompletion(song) {
       if (!song || !song.title || !song.artist) return;
       
+      console.log('📊 Logging song completion:', {
+        title: song.title,
+        artist: song.artist,
+        listeningTimeMs: listeningTimeMs,
+        durationMs: song.durationMs
+      });
+      
       try {
-        await fetch("/api/spotify/log", {
+        const response = await fetch("/api/spotify/log", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -48,7 +55,10 @@ export default function Home() {
             durationMs: song.durationMs,
             listeningTimeMs: listeningTimeMs
           })
-        }).catch(err => console.error('Failed to log song:', err));
+        });
+        if (!response.ok) {
+          console.error('Failed to log song:', response.status);
+        }
       } catch (e) {
         console.error('Error logging song completion:', e);
       }
@@ -65,45 +75,33 @@ export default function Home() {
         
         if (now && now.title && now.artist) {
           const currentSongKey = `${now.title}|||${now.artist}`;
+          const previousSongKey = previousSongData ? `${previousSongData.title}|||${previousSongData.artist}` : null;
           
           // Song changed
           if (currentSongKey !== previousSongKey) {
             // Log previous song if exists
-            if (previousSongKey) {
-              const [prevTitle, prevArtist] = previousSongKey.split('|||');
-              await logSongCompletion({
-                title: prevTitle,
-                artist: prevArtist,
-                album: songdata?.album,
-                uri: songdata?.uri,
-                durationMs: songdata?.durationMs
-              });
+            if (previousSongData) {
+              console.log('🎵 Song changed, logging previous:', previousSongData.title);
+              await logSongCompletion(previousSongData);
             }
             
             // Reset for new song
-            previousSongKey = currentSongKey;
+            previousSongData = { ...now };
             songStartTime = Date.now();
             listeningTimeMs = 0;
-          }
-          
-          // Update listening time if playing
-          if (now.playing && songStartTime) {
-            listeningTimeMs = Date.now() - songStartTime;
-          }
-          
-          // Check if song finished (progress near end or playing changed to false)
-          if (songdata && previousSongKey === currentSongKey) {
-            const isFinished = 
-              (now.progressMs >= now.durationMs - 1000) || // Song near end
-              (!now.playing && songdata.playing); // Just paused
-            
-            if (isFinished && now.playing === false) {
-              await logSongCompletion(now);
-              previousSongKey = null;
+            console.log('🎵 New song started:', now.title);
+          } else {
+            // Same song - update listening time if playing
+            if (now.playing && songStartTime) {
+              listeningTimeMs = Date.now() - songStartTime;
             }
           }
+          
+          // Keep previousSongData in sync
+          previousSongData = { ...now };
         }
        } catch (e) {
+         console.error('Error in load:', e);
          setsongData(prev => ({ ...prev, playing: false }));
        }
        setSongLoad(false);
@@ -120,7 +118,7 @@ export default function Home() {
        clearInterval(syncInterval);
        clearInterval(reloadInterval);
      };
-   }, [reloadRequired, songdata]);
+   }, [reloadRequired]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-6 gap-6">
@@ -148,8 +146,8 @@ export default function Home() {
                 <span className="font-mono font-semibold text-black">{stats.summary.totalSongs}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Total Sessions:</span>
-                <span className="font-mono font-semibold text-black">{stats.summary.totalSessions}</span>
+                <span className="text-gray-600">Total Plays:</span>
+                <span className="font-mono font-semibold text-black">{stats.summary.totalPlays}</span>
               </div>
               {stats.summary.lastUpdated && (
                 <div className="text-xs text-gray-400 mt-3 pt-3 border-t border-gray-200">
@@ -171,8 +169,8 @@ export default function Home() {
                     <div className="text-xs text-gray-500 truncate">{song.artist}</div>
                   </div>
                   <div className="text-right">
-                    <div className="font-mono text-xs font-semibold text-black">{song.playCount} plays</div>
-                    <div className="font-mono text-xs text-gray-500">{(song.totalListeningTimeMs / 60000).toFixed(0)}m</div>
+                    <div className="font-mono text-xs font-semibold text-black">{song.playCount || 0} plays</div>
+                    <div className="font-mono text-xs text-gray-500">{Math.round((song.lastListeningTimeMs || 0) / 1000)}s</div>
                   </div>
                 </div>
               ))}
