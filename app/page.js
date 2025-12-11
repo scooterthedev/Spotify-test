@@ -116,7 +116,7 @@ export default function Home() {
        refreshing = false;
      }
      load();
-     const syncInterval = setInterval(load, 30000); // Reduced from 5s to 30s
+     const syncInterval = setInterval(load, 5000); // Poll every 5 seconds for accurate song detection
      const reloadInterval = setInterval(() => {
        if (reloadRequired) {
          load();
