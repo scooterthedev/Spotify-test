@@ -29,6 +29,31 @@ export default function Home() {
 
   useEffect(() => {
     let refreshing = false;
+    let previousSongKey = null;
+    let songStartTime = null;
+    let listeningTimeMs = 0;
+
+    async function logSongCompletion(song) {
+      if (!song || !song.title || !song.artist) return;
+      
+      try {
+        await fetch("/api/spotify/log", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: song.title,
+            artist: song.artist,
+            album: song.album,
+            uri: song.uri,
+            durationMs: song.durationMs,
+            listeningTimeMs: listeningTimeMs
+          })
+        }).catch(err => console.error('Failed to log song:', err));
+      } catch (e) {
+        console.error('Error logging song completion:', e);
+      }
+    }
+
     async function load() {
       try {
         if (refreshing) return;
@@ -38,41 +63,64 @@ export default function Home() {
         const now = await fetch("/api/spotify/me").then(r => r.json());
         setsongData(now);
         
-        // Log listening data if song is playing
         if (now && now.title && now.artist) {
-          fetch("/api/spotify/log", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              title: now.title,
-              artist: now.artist,
-              album: now.album,
-              progressMs: now.progressMs,
-              durationMs: now.durationMs,
-              playing: now.playing,
-              uri: now.uri,
-              timestamp: new Date().toISOString()
-            })
-          }).catch(err => console.error('Failed to log listening data:', err));
+          const currentSongKey = `${now.title}|||${now.artist}`;
+          
+          // Song changed
+          if (currentSongKey !== previousSongKey) {
+            // Log previous song if exists
+            if (previousSongKey) {
+              const [prevTitle, prevArtist] = previousSongKey.split('|||');
+              await logSongCompletion({
+                title: prevTitle,
+                artist: prevArtist,
+                album: songdata?.album,
+                uri: songdata?.uri,
+                durationMs: songdata?.durationMs
+              });
+            }
+            
+            // Reset for new song
+            previousSongKey = currentSongKey;
+            songStartTime = Date.now();
+            listeningTimeMs = 0;
+          }
+          
+          // Update listening time if playing
+          if (now.playing && songStartTime) {
+            listeningTimeMs = Date.now() - songStartTime;
+          }
+          
+          // Check if song finished (progress near end or playing changed to false)
+          if (songdata && previousSongKey === currentSongKey) {
+            const isFinished = 
+              (now.progressMs >= now.durationMs - 1000) || // Song near end
+              (!now.playing && songdata.playing); // Just paused
+            
+            if (isFinished && now.playing === false) {
+              await logSongCompletion(now);
+              previousSongKey = null;
+            }
+          }
         }
-      } catch (e) {
-        setsongData(prev => ({ ...prev, playing: false }));
-      }
-      setSongLoad(false);
-      refreshing = false;
-    }
-    load();
-    const syncInterval = setInterval(load, 5000);
-    const reloadInterval = setInterval(() => {
-      if (reloadRequired) {
-        load();
-      }
-    }, 500);
-    return () => {
-      clearInterval(syncInterval);
-      clearInterval(reloadInterval);
-    };
-  }, [reloadRequired]);
+       } catch (e) {
+         setsongData(prev => ({ ...prev, playing: false }));
+       }
+       setSongLoad(false);
+       refreshing = false;
+     }
+     load();
+     const syncInterval = setInterval(load, 5000);
+     const reloadInterval = setInterval(() => {
+       if (reloadRequired) {
+         load();
+       }
+     }, 500);
+     return () => {
+       clearInterval(syncInterval);
+       clearInterval(reloadInterval);
+     };
+   }, [reloadRequired, songdata]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-6 gap-6">
