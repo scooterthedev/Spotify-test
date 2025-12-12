@@ -1,4 +1,16 @@
 export async function GET() {
+  // Block requests between midnight (00:00) and 10am (10:00) EST
+  const estTime = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
+  const hour = estTime.getHours();
+  
+  if (hour >= 0 && hour < 10) {
+    return Response.json({ 
+      playing: false, 
+      blockedByTimeRestriction: true,
+      message: "Spotify requests blocked between midnight and 10am EST"
+    });
+  }
+
   const clientId = process.env.SPOTIFY_CLIENT_ID;
   const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
   const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN;
