@@ -32,16 +32,17 @@ export default function Home() {
     let songStartTime = null;
     let listeningTimeMs = 0;
 
-    async function logSongCompletion(song) {
+    async function logSongCompletion(song, trackedListeningTimeMs = 0) {
       if (!song || !song.title || !song.artist) return;
       
-      // Use progressMs from the song data (how far through they got)
-      const listenedMs = song.progressMs || 0;
+      // Use tracked listening time (actual elapsed time), fallback to progressMs
+      const listenedMs = trackedListeningTimeMs > 0 ? trackedListeningTimeMs : (song.progressMs || 0);
       
       console.log('📊 Logging song:', {
         title: song.title,
         artist: song.artist,
         listenedMs: listenedMs,
+        trackedTime: trackedListeningTimeMs,
         durationMs: song.durationMs,
         percentComplete: Math.round((listenedMs / (song.durationMs || 1)) * 100)
       });
@@ -90,18 +91,18 @@ export default function Home() {
           const previousSongKey = previousSongData ? `${previousSongData.title}|||${previousSongData.artist}` : null;
           
           // Song changed
-          if (currentSongKey !== previousSongKey) {
-            // Log previous song if exists
-            if (previousSongData) {
-              console.log('🎵 Song changed, logging previous:', previousSongData.title);
-              await logSongCompletion(previousSongData);
-            }
-            
-            // Reset for new song
-            previousSongData = { ...now };
-            songStartTime = Date.now();
-            listeningTimeMs = 0;
-            console.log('🎵 New song started:', now.title);
+           if (currentSongKey !== previousSongKey) {
+             // Log previous song if exists
+             if (previousSongData) {
+               console.log('🎵 Song changed, logging previous:', previousSongData.title);
+               await logSongCompletion(previousSongData, listeningTimeMs);
+             }
+             
+             // Reset for new song
+             previousSongData = { ...now };
+             songStartTime = Date.now();
+             listeningTimeMs = 0;
+             console.log('🎵 New song started:', now.title);
           } else {
             // Same song - update listening time if playing
             if (now.playing && songStartTime) {
@@ -182,7 +183,7 @@ export default function Home() {
                   </div>
                   <div className="text-right">
                     <div className="font-mono text-xs font-semibold text-black">{song.playCount || 0} plays</div>
-                    <div className="font-mono text-xs text-gray-500">{Math.round((song.lastListeningTimeMs || 0) / 1000)}s</div>
+                    <div className="font-mono text-xs text-gray-500">{Math.round((song.totalListeningTimeMs || 0) / 1000)}s</div>
                   </div>
                 </div>
               ))}
